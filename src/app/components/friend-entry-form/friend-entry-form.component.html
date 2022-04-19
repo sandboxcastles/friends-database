@@ -1,0 +1,49 @@
+<mat-card *ngIf="form">
+  <mat-card-title
+    >{{ form.controls["id"].value ? "Update" : "Add" }} Friend</mat-card-title
+  >
+  <form [formGroup]="form" (ngSubmit)="addFriend()">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Age</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Age"
+        [min]="MIN_AGE"
+        [max]="MAX_AGE"
+        formControlName="age"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Weight</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Weight"
+        [min]="MIN_WEIGHT"
+        [max]="MAX_WEIGHT"
+        formControlName="weight"
+      />
+    </mat-form-field>
+    <ng-container [formGroup]="allFriendsForm">
+      <ng-container *ngFor="let ef of allFriendsForm['controls']">
+        <mat-checkbox
+          [checked]="false"
+          (change)="updateLinkedFriends($event, ef.value.id)"
+        >
+          {{ ef.value.name }}
+        </mat-checkbox>
+      </ng-container>
+    </ng-container>
+    <button mat-flat-button color="primary" [disabled]="form.invalid">
+      Add Friend
+    </button>
+  </form>
+</mat-card>
+<code>
+  {{ form.value | json }}
+</code>

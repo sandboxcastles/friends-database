@@ -1,2 +1,12 @@
 <h1>My Friends Database</h1>
+<div class="friends-content" *ngIf="allFriends$ | async as allFriends">
+  <mfdb-friend-list
+    [friends]="allFriends"
+    (friendRemoved)="removeFriend($event)"
+  ></mfdb-friend-list>
+  <mfdb-friend-entry-form
+    [allFriends]="allFriends"
+    (friendAdded)="addFriend($event)"
+  ></mfdb-friend-entry-form>
+</div>
 <router-outlet></router-outlet>
