@@ -5,31 +5,45 @@ import * as friendsActions from '../actions/friends.actions';
 
 export const FRIEND_STATE_KEY = 'friends';
 export interface State {
-  allFriends: Friend[];
+  friends: {
+    allFriends: Friend[];
+  };
 }
 
 export const initialState: State = {
-  allFriends: [],
+  friends: {
+    allFriends: [],
+  },
 };
 
 export const friendReducer = createReducer(
   initialState,
   on(friendsActions.loadFriendsSuccess, (state, { friends }) => ({
     ...state,
+    friends: {
+      ...state.friends,
+      allFriends: friends,
+    },
     allFriends: friends,
   })),
   on(friendsActions.addFriendSuccess, (state, { friend }) => ({
     ...state,
-    allFriends: [...state.allFriends, friend],
+    friends: {
+      ...state.friends,
+      allFriends: [...state.friends.allFriends, friend],
+    },
   })),
   on(friendsActions.removeFriendSuccess, (state, { id }) => ({
     ...state,
-    allFriends: state.allFriends
-      .filter((friend) => friend.id !== id)
-      .map((friend) => ({
-        ...friend,
-        friendIds: friend.friendIds?.filter((fId: string) => fId !== id) ?? [],
-      })),
+    friends: {
+      allFriends: state.friends.allFriends
+        .filter((friend) => friend.id !== id)
+        .map((friend) => ({
+          ...friend,
+          friendIds:
+            friend.friendIds?.filter((fId: string) => fId !== id) ?? [],
+        })),
+    },
   }))
 );
 

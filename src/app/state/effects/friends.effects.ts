@@ -22,7 +22,7 @@ export class FriendsEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(fromFriendsActions.addFriend),
       switchMap((action) => this.friendsDataService.addFriend(action.friend)),
-      map((friend: Friend) =>
+      map((friend: Friend | null) =>
         friend
           ? fromFriendsActions.addFriendSuccess({ friend })
           : fromFriendsActions.addFriendFailure({ error: 'friend not created' })

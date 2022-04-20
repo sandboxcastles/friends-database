@@ -1,25 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FriendEntryFormComponent } from './friend-entry-form.component';
+import { FormBuilder } from '@angular/forms';
+import { getFriendEntryForm } from './friend-entry-form.component';
 
 describe('FriendEntryFormComponent', () => {
-  let component: FriendEntryFormComponent;
-  let fixture: ComponentFixture<FriendEntryFormComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ FriendEntryFormComponent ]
-    })
-    .compileComponents();
-  });
-
+  let formBuilder: FormBuilder;
   beforeEach(() => {
-    fixture = TestBed.createComponent(FriendEntryFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    formBuilder = new FormBuilder();
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create friend entry form', () => {
+    const friendEntryForm = getFriendEntryForm(formBuilder);
+    expect(friendEntryForm.get('name')).toBeDefined();
   });
 });
