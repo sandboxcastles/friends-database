@@ -5,8 +5,14 @@
     (friendRemoved)="removeFriend($event)"
   ></mfdb-friend-list>
   <mfdb-friend-entry-form
-    [allFriends]="allFriends"
+    [friends]="allFriends"
     (friendAdded)="addFriend($event)"
   ></mfdb-friend-entry-form>
+  <mfdb-bar-chart
+    [data]="allFriends"
+    dataTitleProp="name"
+    dataValueProp="age"
+    barColor="blue"
+  ></mfdb-bar-chart>
 </div>
 <router-outlet></router-outlet>

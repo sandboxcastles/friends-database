@@ -15,7 +15,6 @@ export class FriendDetailsPipe implements PipeTransform {
     weight: number | undefined;
   } | null {
     const friend = friends.find((f) => f.id === id);
-    console.log('friends: ', friends);
     return !!friend
       ? {
           id,

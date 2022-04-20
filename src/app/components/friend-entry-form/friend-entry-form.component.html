@@ -1,11 +1,17 @@
-<mat-card *ngIf="form">
+<mat-card *ngIf="entryForm">
   <mat-card-title
-    >{{ form.controls["id"].value ? "Update" : "Add" }} Friend</mat-card-title
+    >{{
+      entryForm.controls["id"].value ? "Update" : "Add"
+    }}
+    Friend</mat-card-title
   >
-  <form [formGroup]="form" (ngSubmit)="addFriend()">
+  <form [formGroup]="entryForm" (ngSubmit)="addFriend()">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" formControlName="name" />
+      <input #nameInput matInput placeholder="Name" formControlName="name" />
+      <mat-error *ngIf="entryForm['controls']['name'].errors as errors">
+        <ng-container *ngIf="errors.required">Required</ng-container>
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Age</mat-label>
@@ -17,6 +23,12 @@
         [max]="MAX_AGE"
         formControlName="age"
       />
+      <mat-error *ngIf="entryForm['controls']['age'].errors as errors">
+        <ng-container *ngIf="errors.required">Required</ng-container>
+        <ng-container *ngIf="errors.max as maxError">
+          Max: {{ maxError.max }}
+        </ng-container>
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Weight</mat-label>
@@ -28,22 +40,40 @@
         [max]="MAX_WEIGHT"
         formControlName="weight"
       />
+      <mat-error *ngIf="entryForm['controls']['weight'].errors as errors">
+        <ng-container *ngIf="errors.required">Required</ng-container>
+        <ng-container *ngIf="errors.max as maxError">
+          Max: {{ maxError.max }}
+        </ng-container>
+      </mat-error>
     </mat-form-field>
-    <ng-container [formGroup]="allFriendsForm">
-      <ng-container *ngFor="let ef of allFriendsForm['controls']">
-        <mat-checkbox
-          [checked]="false"
-          (change)="updateLinkedFriends($event, ef.value.id)"
-        >
-          {{ ef.value.name }}
-        </mat-checkbox>
+    <ng-container
+      *ngIf="friendsListForm?.controls?.length"
+      [formGroup]="friendsListForm"
+    >
+      <ng-container *ngFor="let ef of friendsListForm.controls">
+        <div [formGroup]="ef">
+          <mat-checkbox formControlName="checked">
+            {{ ef.value.name }}
+          </mat-checkbox>
+        </div>
       </ng-container>
     </ng-container>
-    <button mat-flat-button color="primary" [disabled]="form.invalid">
+    <button
+      mat-flat-button
+      type="submit"
+      color="primary"
+      [disabled]="entryForm.invalid"
+    >
       Add Friend
+    </button>
+    <button
+      mat-flat-button
+      type="reset"
+      color="secondary"
+      (click)="resetForms()"
+    >
+      Reset
     </button>
   </form>
 </mat-card>
-<code>
-  {{ form.value | json }}
-</code>
