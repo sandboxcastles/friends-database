@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { FriendDetailsComponent } from './components/friend-details/friend-details.component';
 import { FriendEntryFormComponent } from './components/friend-entry-form/friend-entry-form.component';
 import { FriendListComponent } from './components/friend-list/friend-list.component';
@@ -23,6 +24,7 @@ import { friendReducer } from './state/reducers';
     FriendDetailsComponent,
     FriendListComponent,
     FriendDetailsPipe,
+    BarChartComponent,
   ],
   imports: [
     BrowserModule,

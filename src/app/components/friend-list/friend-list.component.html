@@ -1,9 +1,11 @@
-<div *ngFor="let friend of friends" class="friend-details-row">
-  <mfdb-friend-details
-    [friend]="friend"
-    [allFriends]="friends"
-  ></mfdb-friend-details>
-  <button mat-flat-button color="warn" (click)="removeFriend(friend.id)">
+<ng-container *ngIf="friends?.length">
+  <div *ngFor="let friend of friends" class="friend-details-row">
+    <mfdb-friend-details
+      [friend]="friend"
+      [friends]="friends"
+    ></mfdb-friend-details>
+    <!-- <button mat-flat-button color="warn" (click)="removeFriend(friend.id)">
     X
-  </button>
-</div>
+  </button> -->
+  </div>
+</ng-container>

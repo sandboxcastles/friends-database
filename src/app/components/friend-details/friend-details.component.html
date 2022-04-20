@@ -5,7 +5,7 @@
     <p>Weight: {{ friend.weight }}</p>
     <ul>
       <li *ngFor="let fId of friend.friendIds">
-        {{ (fId | friendDetails: allFriends)?.name || "" }}
+        {{ (fId | friendDetails: friends)?.name || "" }}
       </li>
     </ul>
   </mat-card-content>

@@ -7,6 +7,6 @@ import { Friend } from 'src/app/models/friend';
   styleUrls: ['./friend-details.component.scss'],
 })
 export class FriendDetailsComponent {
-  @Input() allFriends: Friend[] = [];
+  @Input() friends: Friend[] = [];
   @Input() friend!: Friend;
 }
