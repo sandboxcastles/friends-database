@@ -9,23 +9,20 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FriendEntryFormComponent } from './components/friend-entry-form/friend-entry-form.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
 import { SiteNavComponent } from './components/site-nav/site-nav.component';
 import { MaterialModule } from './material/material.module';
 import { FriendsEffects } from './state/effects/friends.effects';
 import { friendReducer } from './state/reducers';
-import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FriendEntryFormComponent,
-    // FriendDetailsComponent,
-    // FriendListComponent,
-    // FriendDetailsPipe,
-    // BarChartComponent,
-    // PieChartComponent,
     SiteNavComponent,
     HomeComponent,
+    HeaderComponent,
     // ChartViewerComponent,
   ],
   imports: [

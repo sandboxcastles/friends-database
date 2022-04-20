@@ -1,3 +1,13 @@
 :host {
   width: 100%;
 }
+
+.friend-details {
+  padding-left: 1rem;
+  ul.friends-list {
+    li {
+      padding-left: 1rem;
+      list-style: none;
+    }
+  }
+}
