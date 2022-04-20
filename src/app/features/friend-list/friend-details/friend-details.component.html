@@ -1,12 +1,15 @@
 <mat-card *ngIf="friend">
   <mat-card-title>{{ friend.name }}</mat-card-title>
   <mat-card-content>
-    <p>Age: {{ friend.age }}</p>
-    <p>Weight: {{ friend.weight }}</p>
-    <ul>
-      <li *ngFor="let fId of friend.friendIds">
-        {{ (fId | friendDetails: friends)?.name || "" }}
-      </li>
-    </ul>
+    <div class="friend-details">
+      <p>Age: {{ friend.age }}</p>
+      <p>Weight: {{ friend.weight }}</p>
+      <ul class="friends-list" *ngIf="friend.friendIds?.length">
+        <h3>Friends</h3>
+        <li *ngFor="let fId of friend.friendIds">
+          {{ (fId | friendDetails: friends)?.name || "" }}
+        </li>
+      </ul>
+    </div>
   </mat-card-content>
 </mat-card>

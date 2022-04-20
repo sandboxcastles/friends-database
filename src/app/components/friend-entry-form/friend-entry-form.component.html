@@ -59,21 +59,31 @@
         </div>
       </ng-container>
     </ng-container>
-    <button
-      mat-flat-button
-      type="submit"
-      color="primary"
-      [disabled]="entryForm.invalid"
-    >
-      Add Friend
-    </button>
-    <button
-      mat-flat-button
-      type="reset"
-      color="secondary"
-      (click)="resetForms()"
-    >
-      Reset
-    </button>
+    <div class="action-buttons">
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="entryForm.invalid"
+      >
+        Add Friend
+      </button>
+      <button
+        mat-raised-button
+        type="reset"
+        color="warn"
+        (click)="cancelForm()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        type="reset"
+        color="secondary"
+        (click)="resetForms()"
+      >
+        Reset
+      </button>
+    </div>
   </form>
 </mat-card>

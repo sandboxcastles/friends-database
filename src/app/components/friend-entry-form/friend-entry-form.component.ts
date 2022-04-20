@@ -1,39 +1,48 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
+  Inject,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { asyncScheduler } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Friend } from 'src/app/models/friend';
+
+export interface FriendEntryFormData {
+  friends: Friend[];
+}
 
 @Component({
   selector: 'mfdb-friend-entry-form',
   templateUrl: './friend-entry-form.component.html',
   styleUrls: ['./friend-entry-form.component.scss'],
 })
-export class FriendEntryFormComponent {
+export class FriendEntryFormComponent implements OnInit, AfterViewInit {
   readonly MIN_WEIGHT = 0;
   readonly MAX_WEIGHT = 2000;
   readonly MIN_AGE = 0;
   readonly MAX_AGE = 200;
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
-  @Input() friends: Friend[] = [];
-  @Output() friendAdded: EventEmitter<Partial<Friend>> = new EventEmitter();
+
   formBuilder = new FormBuilder();
 
   entryForm: FormGroup = this.createForm();
 
   friendsListForm!: FormArray;
 
-  ngOnChanges(sc: SimpleChanges): void {
-    if (sc['friends']) {
-      this.resetForms();
-    }
+  constructor(
+    public dialogRef: MatDialogRef<FriendEntryFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: FriendEntryFormData
+  ) {}
+
+  ngOnInit(): void {
+    this.resetForms();
+  }
+
+  ngAfterViewInit(): void {
+    this.nameInput?.nativeElement.focus();
   }
 
   resetForms(): void {
@@ -42,18 +51,21 @@ export class FriendEntryFormComponent {
       this.entryForm.get(key)?.setErrors(null);
     });
 
-    this.friendsListForm = this.createAllFriendsFormArray(this.friends);
-    asyncScheduler.schedule(() => this.nameInput?.nativeElement.focus());
+    this.friendsListForm = this.createAllFriendsFormArray(this.data.friends);
   }
 
   addFriend(): void {
     const friendIds = this.friendsListForm.controls
       .filter((c) => c.value.checked)
       .map((c) => c.value.id);
-    this.friendAdded.emit({
+    this.dialogRef.close({
       ...this.entryForm.value,
       friendIds,
     });
+  }
+
+  public cancelForm(): void {
+    this.dialogRef.close(null);
   }
 
   private createForm(): FormGroup {
