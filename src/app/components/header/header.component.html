@@ -1,1 +1,28 @@
-<h1>My Friends Database</h1>
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Friends Menu" [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <a
+      *ngFor="let route of routes"
+      mat-menu-item
+      [routerLink]="route.path"
+      [aria-label]="route.text"
+    >
+      {{ route.text }}
+    </a>
+    <button mat-menu-item aria-label="Add Friend" (click)="addFriend.emit()">
+      Add Friend
+    </button>
+  </mat-menu>
+  <a mat-button [routerLink]="['/']">My Friends Database</a>
+  <span class="example-spacer"></span>
+  <button
+    mat-mini-fab
+    color="secondary"
+    aria-label="Add Friend"
+    (click)="addFriend.emit()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>

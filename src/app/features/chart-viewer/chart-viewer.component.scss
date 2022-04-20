@@ -1,3 +1,13 @@
 nav {
   padding: 5px 25%;
+
+  ul.horizontal-nav {
+    display: flex;
+    justify-content: space-around;
+
+    li {
+      list-style: none;
+      text-decoration: none;
+    }
+  }
 }
