@@ -1,10 +1,19 @@
-import * as fromFriends from './friends.actions';
+import * as fromFriendsActions from './friends.actions';
 
 describe('loadFriends', () => {
   it('should return an action', () => {
-    expect(fromFriends.loadFriends().type).toBe('[Friends] Load Friends');
+    expect(fromFriendsActions.loadFriends().type).toBe(
+      '[Friends] Load Friends'
+    );
   });
   it('should return empty friends', () => {
-    expect(fromFriends.loadFriendsSuccess({ friends: [] }).friends).toEqual([]);
+    expect(
+      fromFriendsActions.loadFriendsSuccess({ friends: [] }).friends
+    ).toEqual([]);
+  });
+  it('should return an error', () => {
+    expect(
+      fromFriendsActions.loadFriendsFailure({ error: { bad: true } }).error
+    ).toEqual({ bad: true });
   });
 });
