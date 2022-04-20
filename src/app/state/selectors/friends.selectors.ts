@@ -9,5 +9,5 @@ export const selectFriendsFeature =
 
 export const getAllFriends = createSelector(
   selectFriendsFeature,
-  (state) => state.allFriends as Friend[]
+  (state) => state.friends.allFriends as Friend[]
 );

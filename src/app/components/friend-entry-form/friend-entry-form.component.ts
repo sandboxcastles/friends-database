@@ -20,15 +20,11 @@ export interface FriendEntryFormData {
   styleUrls: ['./friend-entry-form.component.scss'],
 })
 export class FriendEntryFormComponent implements OnInit, AfterViewInit {
-  readonly MIN_WEIGHT = 0;
-  readonly MAX_WEIGHT = 2000;
-  readonly MIN_AGE = 0;
-  readonly MAX_AGE = 200;
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
 
   formBuilder = new FormBuilder();
 
-  entryForm: FormGroup = this.createForm();
+  entryForm: FormGroup = getFriendEntryForm(this.formBuilder);
 
   friendsListForm!: FormArray;
 
@@ -51,56 +47,67 @@ export class FriendEntryFormComponent implements OnInit, AfterViewInit {
       this.entryForm.get(key)?.setErrors(null);
     });
 
-    this.friendsListForm = this.createAllFriendsFormArray(this.data.friends);
+    this.friendsListForm = createAllFriendsFormArray(
+      this.data.friends,
+      this.formBuilder
+    );
   }
 
   addFriend(): void {
-    const friendIds = this.friendsListForm.controls
-      .filter((c) => c.value.checked)
-      .map((c) => c.value.id);
     this.dialogRef.close({
       ...this.entryForm.value,
-      friendIds,
+      friendIds: getCheckedFriendIds(this.friendsListForm),
     });
   }
 
   public cancelForm(): void {
     this.dialogRef.close(null);
   }
+}
 
-  private createForm(): FormGroup {
-    return this.formBuilder.group({
-      id: null,
-      name: [null, Validators.required],
-      age: [
-        null,
-        [
-          Validators.required,
-          Validators.min(this.MIN_AGE),
-          Validators.max(this.MAX_AGE),
-        ],
+export function getFriendEntryForm(
+  formBuilder: FormBuilder,
+  minAge = 0,
+  maxAge = 200,
+  minWeight = 0,
+  maxWeight = 2000
+): FormGroup {
+  return formBuilder.group({
+    id: null,
+    name: [null, Validators.required],
+    age: [
+      null,
+      [Validators.required, Validators.min(minAge), Validators.max(maxAge)],
+    ],
+    weight: [
+      null,
+      [
+        Validators.required,
+        Validators.min(minWeight),
+        Validators.max(maxWeight),
       ],
-      weight: [
-        null,
-        [
-          Validators.required,
-          Validators.min(this.MIN_WEIGHT),
-          Validators.max(this.MAX_WEIGHT),
-        ],
-      ],
-      friendIds: this.formBuilder.array([]),
-    });
-  }
+    ],
+    friendIds: formBuilder.array([]),
+  });
+}
 
-  private createAllFriendsFormArray(friends: Friend[]): FormArray {
-    return this.formBuilder.array(
-      friends?.map((f) =>
-        this.formBuilder.group({
-          id: [f.id],
-          name: [f.name],
-          checked: [false],
-        })
-      ) ?? []
-    );
-  }
+export function getCheckedFriendIds(friendsListForm: FormArray): string[] {
+  return friendsListForm.controls
+    .filter((c) => c.value.checked)
+    .map((c) => c.value.id);
+}
+
+export function createAllFriendsFormArray(
+  friends: Friend[],
+  formBuilder: FormBuilder
+): FormArray {
+  return formBuilder.array(
+    friends?.map((f) =>
+      formBuilder.group({
+        id: [f.id],
+        name: [f.name],
+        checked: [false],
+      })
+    ) ?? []
+  );
 }

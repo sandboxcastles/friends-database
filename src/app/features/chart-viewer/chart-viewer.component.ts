@@ -40,7 +40,6 @@ export class ChartViewerComponent {
   }
 
   changeChartType(chartType: string): void {
-    console.log('changing chart type to: ', chartType);
     this.chosenChartType = chartType;
   }
 }
