@@ -1,4 +1,4 @@
-<ng-container *ngIf="friends?.length">
+<ng-container *ngIf="friends$ | async as friends">
   <div *ngFor="let friend of friends" class="friend-details-row">
     <mfdb-friend-details
       [friend]="friend"

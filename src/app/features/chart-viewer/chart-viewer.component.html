@@ -1,0 +1,35 @@
+<ng-container *ngIf="friends$ | async as friends">
+  <nav>
+    <ul class="horizontal-nav">
+      <li *ngFor="let chartType of chartTypes">
+        <button
+          mat-stroked-button
+          [color]="chosenChartType === chartType.value ? 'primary' : 'link'"
+          (click)="changeChartType(chartType.value)"
+        >
+          {{ chartType.title }}
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <div [ngSwitch]="chosenChartType">
+    <mfdb-pie-chart
+      *ngSwitchCase="'friendsByWeight'"
+      [data]="friends"
+      dataTitleProp="name"
+      dataValueProp="weight"
+      chartTitle="Friends By Weight"
+      [determineDataValue]="getFriendWeight"
+    ></mfdb-pie-chart>
+    <mfdb-bar-chart
+      *ngSwitchCase="'friendsByAge'"
+      [data]="friends"
+      dataTitleProp="name"
+      dataValueProp="age"
+      barColor="blue"
+      chartTitle="Friends By Age"
+      [determineDataTitle]="getFriendName"
+      [determineDataValue]="getFriendAge"
+    ></mfdb-bar-chart>
+  </div>
+</ng-container>

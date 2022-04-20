@@ -20,6 +20,10 @@ export class AppComponent {
 
   constructor(private store: Store<State>) {}
 
+  addNewFriend(): void {
+    // Open modal for adding new friend
+  }
+
   addFriend(friend: Partial<Friend>): void {
     this.store.dispatch(fromFriendsActions.addFriend({ friend }));
   }

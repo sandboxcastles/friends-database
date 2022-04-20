@@ -1,28 +1,14 @@
 <h1>My Friends Database</h1>
+<mfdb-site-nav (addFriend)="addNewFriend()"></mfdb-site-nav>
+
+<router-outlet></router-outlet>
 <div class="friends-content" *ngIf="allFriends$ | async as allFriends">
-  <mfdb-friend-list
+  <!-- <mfdb-friend-list
     [friends]="allFriends"
     (friendRemoved)="removeFriend($event)"
-  ></mfdb-friend-list>
-  <mfdb-friend-entry-form
+  ></mfdb-friend-list> -->
+  <!-- <mfdb-friend-entry-form
     [friends]="allFriends"
     (friendAdded)="addFriend($event)"
-  ></mfdb-friend-entry-form>
-  <mfdb-bar-chart
-    [data]="allFriends"
-    dataTitleProp="name"
-    dataValueProp="age"
-    barColor="blue"
-    chartTitle="Friends By Age"
-    [determineDataTitle]="getFriendName"
-    [determineDataValue]="getFriendAge"
-  ></mfdb-bar-chart>
-  <mfdb-pie-chart
-    [data]="allFriends"
-    dataTitleProp="name"
-    dataValueProp="weight"
-    chartTitle="Friends By Weight"
-    [determineDataValue]="getFriendWeight"
-  ></mfdb-pie-chart>
+  ></mfdb-friend-entry-form> -->
 </div>
-<router-outlet></router-outlet>
