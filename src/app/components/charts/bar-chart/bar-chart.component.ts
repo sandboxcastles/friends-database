@@ -17,9 +17,13 @@ import { asyncScheduler } from 'rxjs';
 export class BarChartComponent implements OnChanges {
   @ViewChild('barChart') barChart!: ElementRef<any>;
   @Input() data: any[] = [];
+  @Input() chartTitle: string = 'Bar Chart';
   @Input() margin = 50;
   @Input() width = 500;
   @Input() height = 500;
+
+  @Input() determineDataTitle: null | ((d: any) => string) = null;
+  @Input() determineDataValue: null | ((d: any) => any) = null;
 
   @Input() dataTitleProp: string = '';
   @Input() dataValueProp: string = '';
@@ -62,8 +66,12 @@ export class BarChartComponent implements OnChanges {
         this.svg = this.createSvg();
         const barData = [...dataChange.currentValue].sort((a: any, b: any) =>
           this.largeToSmall
-            ? b[this.dataValueProp] - a[this.dataValueProp]
-            : a[this.dataValueProp] - b[this.dataValueProp]
+            ? this.determineDataValue?.(b) ??
+              b[this.dataValueProp] - this.determineDataValue?.(a) ??
+              a[this.dataValueProp]
+            : this.determineDataValue?.(a) ??
+              a[this.dataValueProp] - this.determineDataValue?.(b) ??
+              b[this.dataValueProp]
         );
         this.drawBars(barData);
       });
@@ -87,7 +95,9 @@ export class BarChartComponent implements OnChanges {
 
   private drawBars(data: any[]): void {
     const x = this.getXScale(
-      data.map((d) => d[this.dataTitleProp] ?? ''),
+      data.map(
+        (d) => this.determineDataTitle?.(d) ?? d[this.dataTitleProp] ?? ''
+      ),
       this.graphWidth
     );
     this.drawXAxis(this.svg, x, this.graphHeight);
@@ -119,7 +129,9 @@ export class BarChartComponent implements OnChanges {
   }
 
   private getYScale(data: any[]): d3.ScaleLinear<number, number, never> {
-    const topValue = Math.max(...data.map((v) => v[this.dataValueProp]));
+    const topValue = Math.max(
+      ...data.map((v) => this.determineDataValue?.(v) ?? v[this.dataValueProp])
+    );
 
     // Create the Y-axis scale
     return d3
@@ -143,8 +155,12 @@ export class BarChartComponent implements OnChanges {
       .data(data)
       .enter()
       .append('rect')
-      .attr('x', (d: any) => x(d[this.dataTitleProp] ?? ''))
-      .attr('y', (d: any) => y(d[this.dataValueProp] ?? 0))
+      .attr('x', (d: any) =>
+        x(this.determineDataTitle?.(d) ?? d[this.dataTitleProp] ?? '')
+      )
+      .attr('y', (d: any) =>
+        y(this.determineDataValue?.(d) ?? d[this.dataValueProp] ?? 0)
+      )
       .attr('width', x.bandwidth())
       .attr(
         'height',

@@ -13,6 +13,16 @@
     dataTitleProp="name"
     dataValueProp="age"
     barColor="blue"
+    chartTitle="Friends By Age"
+    [determineDataTitle]="getFriendName"
+    [determineDataValue]="getFriendAge"
   ></mfdb-bar-chart>
+  <mfdb-pie-chart
+    [data]="allFriends"
+    dataTitleProp="name"
+    dataValueProp="weight"
+    chartTitle="Friends By Weight"
+    [determineDataValue]="getFriendWeight"
+  ></mfdb-pie-chart>
 </div>
 <router-outlet></router-outlet>

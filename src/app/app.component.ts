@@ -14,6 +14,10 @@ export class AppComponent {
   allFriends$ = this.store.pipe(select(fromFriendsSelectors.getAllFriends));
   title = 'My Friends Database';
 
+  public getFriendName = (f: Friend) => f.name;
+  public getFriendAge = (f: Friend) => f.age;
+  public getFriendWeight = (f: Friend) => f.weight;
+
   constructor(private store: Store<State>) {}
 
   addFriend(friend: Partial<Friend>): void {
