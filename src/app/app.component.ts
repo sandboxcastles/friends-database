@@ -26,7 +26,7 @@ export class AppComponent {
     private modalService: ModalService
   ) {}
 
-  addNewFriend(): void {
+  addFriend(): void {
     this.allFriends$
       .pipe(
         take(1),
@@ -39,15 +39,7 @@ export class AppComponent {
         filter((friend: any) => !!friend)
       )
       .subscribe((friend: Partial<Friend>) => {
-        this.addFriend(friend);
+        this.store.dispatch(fromFriendsActions.addFriend({ friend }));
       });
-  }
-
-  addFriend(friend: Partial<Friend>): void {
-    this.store.dispatch(fromFriendsActions.addFriend({ friend }));
-  }
-
-  removeFriend(id: string): void {
-    this.store.dispatch(fromFriendsActions.removeFriend({ id }));
   }
 }

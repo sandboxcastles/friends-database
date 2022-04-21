@@ -20,7 +20,7 @@ export class ChartViewerComponent {
       value: 'friendsByAge',
     },
     {
-      title: 'Friends By Weight',
+      title: 'Friends By Weight (lbs)',
       value: 'friendsByWeight',
     },
     {

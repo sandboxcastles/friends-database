@@ -10,7 +10,12 @@ import { ScatterChartComponent } from './components/charts/scatter-chart/scatter
 const routes: Routes = [{ path: '', component: ChartViewerComponent }];
 
 @NgModule({
-  declarations: [ChartViewerComponent, BarChartComponent, PieChartComponent, ScatterChartComponent],
+  declarations: [
+    ChartViewerComponent,
+    BarChartComponent,
+    PieChartComponent,
+    ScatterChartComponent,
+  ],
   imports: [CommonModule, RouterModule.forChild(routes), MaterialModule],
 })
 export class ChartViewerModule {}

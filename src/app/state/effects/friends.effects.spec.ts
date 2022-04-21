@@ -78,6 +78,23 @@ describe('FriendsEffects', () => {
     });
   });
 
+  it('should update friend', (done) => {
+    const testFriend = { id: '100', name: 'Testy' };
+    const spy = spyOn(friendsDataService, 'updateFriend').and.callThrough();
+    actions$ = of(
+      fromFriendsActions.updateFriend({ id: testFriend.id, friend: testFriend })
+    );
+    effects.updateFriend$.subscribe((res) => {
+      expect(res).toEqual(
+        fromFriendsActions.updateFriendSuccess({
+          friend: testFriend,
+        })
+      );
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
   it('should remove friend', (done) => {
     const spy = spyOn(friendsDataService, 'removeFriend').and.callThrough();
     actions$ = of(fromFriendsActions.removeFriend({ id: '100' }));

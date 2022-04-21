@@ -31,7 +31,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Weight</mat-label>
+      <mat-label>Weight (lbs)</mat-label>
       <input
         matInput
         type="number"
@@ -47,8 +47,9 @@
         </ng-container>
       </mat-error>
     </mat-form-field>
-    <ng-container
+    <div
       *ngIf="friendsListForm?.controls?.length"
+      class="scroll-box"
       [formGroup]="friendsListForm"
     >
       <ng-container *ngFor="let ef of friendsListForm.controls">
@@ -58,7 +59,7 @@
           </mat-checkbox>
         </div>
       </ng-container>
-    </ng-container>
+    </div>
     <div class="action-buttons">
       <button
         mat-raised-button
@@ -66,7 +67,7 @@
         color="primary"
         [disabled]="entryForm.invalid"
       >
-        Add Friend
+        Submit
       </button>
       <button
         mat-raised-button
