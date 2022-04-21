@@ -33,5 +33,20 @@
       [width]="400"
       [heigth]="400"
     ></mfdb-bar-chart>
+    <mfdb-scatter-chart
+      *ngSwitchCase="'friendsByAgeAndFriends'"
+      [data]="friends"
+      dataTitleProp="name"
+      dataValueXAxisProp="age"
+      dataValueYAxisProp="weight"
+      [determineDataValueYAxis]="determineNumberOfFriends"
+      pointColor="#3F51B5"
+      [lowXValue]="0"
+      [highXValue]="120"
+      [lowYValue]="0"
+      [highYValue]="10"
+      xAxisTitle="Friend Age"
+      yAxisTitle="# of Friends"
+    ></mfdb-scatter-chart>
   </div>
 </ng-container>
