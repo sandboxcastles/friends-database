@@ -12,7 +12,7 @@ import * as fromFriendsSelectors from 'src/app/state/selectors/friends.selectors
 })
 export class FriendListComponent {
   friends$ = this.store.pipe(select(fromFriendsSelectors.getAllFriends));
-  displayedColumns = ['name', 'age', 'weight', 'delete'];
+  displayedColumns = ['name', 'age', 'weight', 'friendCount', 'delete'];
 
   constructor(private store: Store<State>) {}
 
