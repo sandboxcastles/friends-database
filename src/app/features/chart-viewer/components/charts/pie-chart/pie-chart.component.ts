@@ -30,8 +30,6 @@ export class PieChartComponent implements OnChanges {
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private svg!: any;
 
-  constructor() {}
-
   ngOnChanges(sc: SimpleChanges): void {
     if (sc['data']) {
       asyncScheduler.schedule(() => {
@@ -66,7 +64,6 @@ export class PieChartComponent implements OnChanges {
         )
       )
       .range(['blue', 'green', 'yellow', 'pink', 'red']);
-    // .range(['#c7d3ec', '#a5b8db', '#879cc4', '#677795', '#5a6782']);
   }
 
   private drawChart(): void {
@@ -89,7 +86,10 @@ export class PieChartComponent implements OnChanges {
       .style('stroke-width', '1px');
 
     // Add labels
-    const labelLocation = d3.arc().innerRadius(100).outerRadius(this.radius);
+    const labelLocation = d3
+      .arc()
+      .innerRadius(this.radius * 0.5)
+      .outerRadius(this.radius);
 
     this.svg
       .selectAll('pieces')
@@ -100,6 +100,9 @@ export class PieChartComponent implements OnChanges {
         (d: any) =>
           this.determineDataTitle?.(d.data) ?? d.data[this.dataTitleProp]
       )
+      .attr('fill', 'gray')
+      .attr('stroke', 'black')
+      .style('stroke-width', '1px')
       .attr(
         'transform',
         (d: any) => 'translate(' + labelLocation.centroid(d) + ')'
