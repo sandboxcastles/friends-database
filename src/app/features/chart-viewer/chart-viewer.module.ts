@@ -5,11 +5,12 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ChartViewerComponent } from './chart-viewer.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { PieChartComponent } from './components/charts/pie-chart/pie-chart.component';
+import { ScatterChartComponent } from './components/charts/scatter-chart/scatter-chart.component';
 
 const routes: Routes = [{ path: '', component: ChartViewerComponent }];
 
 @NgModule({
-  declarations: [ChartViewerComponent, BarChartComponent, PieChartComponent],
+  declarations: [ChartViewerComponent, BarChartComponent, PieChartComponent, ScatterChartComponent],
   imports: [CommonModule, RouterModule.forChild(routes), MaterialModule],
 })
 export class ChartViewerModule {}

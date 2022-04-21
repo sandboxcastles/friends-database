@@ -23,7 +23,13 @@ export class ChartViewerComponent {
       title: 'Friends By Weight',
       value: 'friendsByWeight',
     },
+    {
+      title: 'Friends By Age And # of Friends',
+      value: 'friendsByAgeAndFriends',
+    },
   ];
+
+  determineNumberOfFriends = (f: Friend) => f.friendIds?.length ?? 0;
 
   public getFriendName = (f: Friend) => f.name;
   public getFriendAge = (f: Friend) => f.age;
