@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import * as d3 from 'd3';
 import { asyncScheduler } from 'rxjs';
 
@@ -7,7 +14,7 @@ import { asyncScheduler } from 'rxjs';
   templateUrl: './scatter-chart.component.html',
   styleUrls: ['./scatter-chart.component.scss'],
 })
-export class ScatterChartComponent implements OnInit {
+export class ScatterChartComponent implements OnChanges {
   @ViewChild('scatterGraph') scatterGraph!: ElementRef<any>;
   @Input() data: any[] = [];
 
@@ -27,16 +34,19 @@ export class ScatterChartComponent implements OnInit {
 
   private svg!: any;
   private margin = 50;
-  private width = 750 - this.margin * 2;
-  private height = 400 - this.margin * 2;
+  private width = 600 - this.margin * 2;
+  private height = 300 - this.margin * 2;
 
   constructor() {}
 
-  ngOnInit(): void {
-    asyncScheduler.schedule(() => {
-      this.createSvg();
-      this.drawPlot(this.data);
-    });
+  ngOnChanges(sc: SimpleChanges): void {
+    const dataChange = sc['data'];
+    if (dataChange) {
+      asyncScheduler.schedule(() => {
+        this.createSvg();
+        this.drawPlot(dataChange.currentValue);
+      });
+    }
   }
 
   createSvg(): void {
