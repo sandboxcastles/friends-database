@@ -33,6 +33,16 @@ export const friendReducer = createReducer(
       allFriends: [...state.friends.allFriends, friend],
     },
   })),
+  on(friendsActions.updateFriendSuccess, (state, { friend }) => ({
+    ...state,
+    friends: {
+      allFriends: [
+        ...state.friends.allFriends.map((f) =>
+          f.id === friend.id ? friend : f
+        ),
+      ],
+    },
+  })),
   on(friendsActions.removeFriendSuccess, (state, { id }) => ({
     ...state,
     friends: {

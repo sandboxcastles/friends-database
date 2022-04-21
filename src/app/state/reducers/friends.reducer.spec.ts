@@ -53,6 +53,18 @@ describe('Reducer: Friends', () => {
     ).toEqual({ friends: { allFriends: [mockFriend1, mockFriend2] } });
   });
 
+  it('should update a friend', () => {
+    const updatedMockFriend1 = {
+      ...mockFriend1,
+      name: 'Softy-updated',
+    };
+    const result = fromFriendReducer.friendReducer(
+      initialState,
+      fromFriendsActions.updateFriendSuccess({ friend: updatedMockFriend1 })
+    );
+    expect(result.friends.allFriends[0].name).toEqual('Softy-updated');
+  });
+
   it('should remove first friend', () => {
     const newInitialState = {
       ...initialState,

@@ -28,6 +28,21 @@ export const addFriendFailure = createAction(
   props<{ error: any }>()
 );
 
+export const updateFriend = createAction(
+  '[Friends] Update Friend',
+  props<{ id: string; friend: Partial<Friend> }>()
+);
+
+export const updateFriendSuccess = createAction(
+  '[Friends] Update Friend Success',
+  props<{ friend: Friend }>()
+);
+
+export const updateFriendFailure = createAction(
+  '[Friends] Update Friend Failure',
+  props<{ error: any }>()
+);
+
 export const removeFriend = createAction(
   '[Friends] Remove Friend',
   props<{ id: string }>()

@@ -30,6 +30,22 @@ export class FriendsEffects implements OnInitEffects {
     )
   );
 
+  updateFriend$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromFriendsActions.updateFriend),
+      switchMap((action) =>
+        this.friendsDataService.updateFriend(action.id, action.friend)
+      ),
+      map((friend: Friend | null) =>
+        friend
+          ? fromFriendsActions.updateFriendSuccess({ friend })
+          : fromFriendsActions.updateFriendFailure({
+              error: 'friend not updated',
+            })
+      )
+    )
+  );
+
   removeFriend$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromFriendsActions.removeFriend),
