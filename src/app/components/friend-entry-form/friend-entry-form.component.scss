@@ -6,3 +6,8 @@ mat-card form {
   display: flex;
   justify-content: space-between;
 }
+
+.scroll-box {
+  height: 150px;
+  overflow: scroll;
+}
