@@ -35,8 +35,8 @@ export class BarChartComponent implements OnChanges {
 
   @Input() largeToSmall = true;
 
-  graphWidth: number = this.width - this.margin * 2;
-  graphHeight: number = this.height - this.margin * 2;
+  graphWidth: number = getUpdatedDimensionValue(this.width, this.margin); // this.width - this.margin * 2;
+  graphHeight: number = getUpdatedDimensionValue(this.height, this.margin);
 
   private svg!: any;
 
@@ -46,7 +46,7 @@ export class BarChartComponent implements OnChanges {
 
     const widthChange = sc['width'];
     if (widthChange || marginChange) {
-      this.graphHeight = this.getUpdatedDimensionValue(
+      this.graphHeight = getUpdatedDimensionValue(
         widthChange?.currentValue ?? this.width,
         margin
       );
@@ -54,7 +54,7 @@ export class BarChartComponent implements OnChanges {
 
     const heightChange = sc['height'];
     if (heightChange || marginChange) {
-      this.graphHeight = this.getUpdatedDimensionValue(
+      this.graphHeight = getUpdatedDimensionValue(
         heightChange?.currentValue ?? this.height,
         margin
       );
@@ -76,10 +76,6 @@ export class BarChartComponent implements OnChanges {
         this.drawBars(barData);
       });
     }
-  }
-
-  private getUpdatedDimensionValue(dimension: number, margin: number): number {
-    return dimension - margin * 2;
   }
 
   private createSvg() {
@@ -174,4 +170,11 @@ export class BarChartComponent implements OnChanges {
 }
 
 export const numberToNearest = (num: number, increment: number) =>
-  num + (increment - (num % increment));
+  increment === 0 || increment === 1
+    ? num
+    : num + (increment - (num % increment));
+
+export const getUpdatedDimensionValue = (
+  dimension: number,
+  margin: number
+): number => Math.max(0, dimension - margin * 2);
