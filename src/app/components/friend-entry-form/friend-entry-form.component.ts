@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -11,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Friend } from 'src/app/models/friend';
 
 export interface FriendEntryFormData {
+  friend?: Friend;
   friends: Friend[];
 }
 
@@ -19,7 +19,7 @@ export interface FriendEntryFormData {
   templateUrl: './friend-entry-form.component.html',
   styleUrls: ['./friend-entry-form.component.scss'],
 })
-export class FriendEntryFormComponent implements OnInit, AfterViewInit {
+export class FriendEntryFormComponent implements OnInit {
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>;
 
   formBuilder = new FormBuilder();
@@ -37,20 +37,24 @@ export class FriendEntryFormComponent implements OnInit, AfterViewInit {
     this.resetForms();
   }
 
-  ngAfterViewInit(): void {
-    this.nameInput?.nativeElement.focus();
-  }
-
   resetForms(): void {
     this.entryForm.reset();
+    const friend: any = this.data.friend;
+    if (!!friend) {
+      ['id', 'name', 'age', 'weight'].forEach((key) => {
+        this.entryForm.get(key)?.setValue(friend[key]);
+      });
+    }
     Object.keys(this.entryForm.controls).forEach((key) => {
       this.entryForm.get(key)?.setErrors(null);
     });
 
     this.friendsListForm = createAllFriendsFormArray(
       this.data.friends,
-      this.formBuilder
+      this.formBuilder,
+      friend
     );
+    this.nameInput?.nativeElement.focus();
   }
 
   addFriend(): void {
@@ -99,14 +103,15 @@ export function getCheckedFriendIds(friendsListForm: FormArray): string[] {
 
 export function createAllFriendsFormArray(
   friends: Friend[],
-  formBuilder: FormBuilder
+  formBuilder: FormBuilder,
+  friend?: Friend
 ): FormArray {
   return formBuilder.array(
     friends?.map((f) =>
       formBuilder.group({
         id: [f.id],
         name: [f.name],
-        checked: [false],
+        checked: [friend?.friendIds?.some((fId) => fId === f.id) ?? false],
       })
     ) ?? []
   );
